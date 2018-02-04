@@ -3,9 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DarkForge2.iml" filepath="$PROJECT_DIR$/DarkForge2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DarkForge2_api.iml" filepath="$PROJECT_DIR$/.idea/modules/DarkForge2_api.iml" group="DarkForge2" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DarkForge2_main.iml" filepath="$PROJECT_DIR$/.idea/modules/DarkForge2_main.iml" group="DarkForge2" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DarkForge2_test.iml" filepath="$PROJECT_DIR$/.idea/modules/DarkForge2_test.iml" group="DarkForge2" />
     </modules>
   </component>
 </project>

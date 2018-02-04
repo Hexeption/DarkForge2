@@ -1,0 +1,27 @@
+version = minecraft_version + "-b" + cibuild + "-univeral"
+archivesBaseName = cibasename
+
+def githubOwner = 'g'
+def githubRepo = 'g'
+def githubToken = 'g'
+def githubTagName = 'g'
+def githubTargetCommitish = 'g'
+def githubName = 'g'
+def githubPreRelease = true
+
+def buildCount = 'B1'
+
+
+if (hasProperty("teamcity")) {
+    version = minecraft_version + "-" + teamcity["build.number"] + "-univeral"
+    buildCount = "B" + teamcity["BuildCounter"]
+
+    githubOwner = teamcity["githubOwner"]
+    githubRepo = teamcity["githubProject"]
+    githubToken = teamcity["githubToken"]
+    githubTagName = teamcity["build.number"]
+    githubTargetCommitish = teamcity["branch"]
+    githubName = teamcity["build.number"]
+
+    githubPreRelease = teamcity["githubPreRelease"]
+}

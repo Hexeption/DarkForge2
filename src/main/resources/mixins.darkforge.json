@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "org.strezz.darkforge.mixin.mixins",
+  "refmap": "mixins.darkforge.refmap.json",
+  "mixins": [
+    "MixinMinecraft"
+  ]
+}

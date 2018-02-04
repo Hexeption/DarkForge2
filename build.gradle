@@ -1,3 +1,8 @@
+apply plugin: "net.minecraftforge.gradle.forge"
+
+apply from: "gradle/scripts/dependencies.gradle"
+apply from: "gradle/scripts/teamcity.gradle"
+
 buildscript {
     repositories {
         jcenter()
@@ -5,53 +10,84 @@ buildscript {
             name = "forge"
             url = "https://files.minecraftforge.net/maven"
         }
+        maven {
+            url = "https://plugins.gradle.org/m2"
+        }
+        maven {
+            name = 'SpongePowered'
+            url = 'http://repo.spongepowered.org/maven'
+        }
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
+        classpath "org.spongepowered:mixingradle:0.6-SNAPSHOT"
+        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.2"
     }
 }
 
-apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "org.spongepowered.mixin"
+apply plugin: "com.github.johnrengelman.shadow"
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+compileJava.options.encoding = 'UTF-8'
 
 version = modVersion
 group = modGroup
 archivesBaseName = modBaseName
 
 minecraft {
-    version = project.forgeVersion
+    version = minecraft_version + "-" + forge_version
     runDir = "run"
 
-    // the mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   snapshot are built nightly.
-    // stable_#            stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // simply re-run your setup task after changing the mappings to update your workspace.
     mappings = project.mcpVersion
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
 }
 
 processResources {
-    // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include "mcmod.info"
 
-        // replace version and mcversion
         expand "version": project.version, "mcversion": project.minecraft.version
     }
 
-    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude "mcmod.info"
     }
 }
+
+mixin {
+    add sourceSets.main, "mixins.darkforge.refmap.json"
+}
+
+shadowJar {
+    dependencies {
+        include(dependency("org.spongepowered:mixin"))
+    }
+
+    exclude 'dummyThing'
+    exclude 'LICENSE.txt'
+    classifier = 'full'
+}
+
+reobf {
+    shadowJar {
+        mappingType = 'SEARGE'
+        classpath = sourceSets.main.compileClasspath
+    }
+}
+
+build.dependsOn(shadowJar)
+
+jar{
+    manifest {
+        attributes(
+                "MixinConfigs": 'mixins.mcwrapper.json',
+                "tweakClass": 'org.spongepowered.asm.launch.MixinTweaker',
+                "FMLCorePluginContainsFMLMod": 'org.strezz.darkforge.mixin.loader.MixinLoader',
+                "TweakOrder": 0)
+    }
+}
+
