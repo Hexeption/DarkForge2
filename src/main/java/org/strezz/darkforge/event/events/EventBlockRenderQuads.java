@@ -15,10 +15,10 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package uk.co.hexeption.darkforge.event.events;
+package org.strezz.darkforge.event.events;
 
 import net.minecraft.block.Block;
-import uk.co.hexeption.darkforge.event.Event;
+import org.strezz.darkforge.event.Event;
 
 import java.awt.*;
 
@@ -30,7 +30,7 @@ public class EventBlockRenderQuads extends Event {
     private final Block block;
     private final Color color;
 
-    public EventBlockRenderQuads(Type type, Block block, Color color) {
+    public EventBlockRenderQuads(Event.Type type, Block block, Color color) {
         super(type);
         this.block = block;
         this.color = color;

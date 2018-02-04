@@ -15,11 +15,11 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package uk.co.hexeption.darkforge.event.events;
+package org.strezz.darkforge.event.events;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.BlockRenderLayer;
-import uk.co.hexeption.darkforge.event.Event;
+import org.strezz.darkforge.event.Event;
 
 /**
  * Created by Keir on 21/04/2017.
